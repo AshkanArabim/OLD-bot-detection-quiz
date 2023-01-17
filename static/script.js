@@ -4,7 +4,7 @@
   const port = 3000;
   const fetchurl = `http://localhost:${port}`;
 
-  updateBtn.addEventListener("click", update);
+  update();
 
   function resetTable() {
     tweetholder.textContent = "";
@@ -22,7 +22,7 @@
       appChildren(indexRow, etc("td", key));
     }
     //add another cell to describe the feeback functions
-    appChildren(indexRow, etc("td", "Please provide your feedback:"));
+    appChildren(indexRow, etc("td", "Is this a scam?"));
 
     //render data for each row
     for (row of data) {
@@ -44,8 +44,8 @@
       }
 
       const actions = etc("td", "");
-      const scamBtn = etc("button", "This is a scam", "scamBtn");
-      const notScamBtn = etc("button", "NOT a scam", "notScamBtn");
+      const scamBtn = etc("button", "Yes", "scamBtn");
+      const notScamBtn = etc("button", "No", "notScamBtn");
 
       scamBtn.addEventListener("click", () => {
         sendFeedback("yes", id);

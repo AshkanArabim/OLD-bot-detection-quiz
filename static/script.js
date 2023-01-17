@@ -6,30 +6,6 @@
 
   updateBtn.addEventListener("click", update);
 
-  class utils {
-    static cr(element) {
-      return document.createElement(element);
-    }
-    static qs(query) {
-      return document.querySelector(query);
-    }
-    static appChildren(parent) {
-      for (let i = 1; i <= arguments.length - 1; i++) {
-        parent.appendChild(arguments[i]);
-      }
-    }
-    static etc(element, text) {
-      const product = this.cr(element);
-      product.textContent = text;
-      if (arguments[2]) {
-        for (let i = 2; i < arguments.length; i++) {
-          product.classList.add(arguments[i]);
-        }
-      }
-      return product;
-    }
-  }
-
   function resetTable() {
     tweetholder.textContent = "";
   }
@@ -43,11 +19,10 @@
     tweetholder.appendChild(indexRow);
 
     for (key of Object.keys(data[0])) {
-      const indexCell = document.createElement("td");
-      console.log(indexCell);
-      indexCell.textContent = key;
-      indexRow.appendChild(indexCell);
+      appChildren(indexRow, etc("td", key));
     }
+    //add another cell to describe the feeback functions
+    appChildren(indexRow, etc("td", "Please provide your feedback:"));
 
     //render data for each row
     for (row of data) {
@@ -68,9 +43,9 @@
         tr.appendChild(td);
       }
 
-      const actions = utils.etc("td", "please choose your opinion:");
-      const scamBtn = utils.etc("button", "This is a scam", "scamBtn");
-      const notScamBtn = utils.etc("button", "NOT a scam", "notScamBtn");
+      const actions = etc("td", "");
+      const scamBtn = etc("button", "This is a scam", "scamBtn");
+      const notScamBtn = etc("button", "NOT a scam", "notScamBtn");
 
       scamBtn.addEventListener("click", () => {
         sendFeedback("yes", id);
@@ -83,7 +58,7 @@
         update();
       });
 
-      utils.appChildren(actions, scamBtn, notScamBtn);
+      appChildren(actions, scamBtn, notScamBtn);
       tr.appendChild(actions);
       tweetholder.appendChild(tr);
     }
@@ -122,5 +97,28 @@
     tweets = await getTweets();
     console.log(tweets);
     renderTable(tweets);
+  }
+
+  //DOM utilities
+  function cr(element) {
+    return document.createElement(element);
+  }
+  function qs(query) {
+    return document.querySelector(query);
+  }
+  function appChildren(parent) {
+    for (let i = 1; i <= arguments.length - 1; i++) {
+      parent.appendChild(arguments[i]);
+    }
+  }
+  function etc(element, text) {
+    const product = cr(element);
+    product.textContent = text;
+    if (arguments[2]) {
+      for (let i = 2; i < arguments.length; i++) {
+        product.classList.add(arguments[i]);
+      }
+    }
+    return product;
   }
 })();
